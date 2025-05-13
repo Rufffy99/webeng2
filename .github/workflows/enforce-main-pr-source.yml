@@ -1,0 +1,22 @@
+name: Enforce PR source to main from allowed branches
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate-pr-source:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate source branch
+        run: |
+          echo "Checking PR source branch: ${{ github.head_ref }}"
+
+          # Allow 'staging' or any branch starting with 'hotfix/'
+          if [[ "${{ github.head_ref }}" == "staging" || "${{ github.head_ref }}" =~ ^hotfix\/.+$ ]]; then
+            echo "✅ Allowed PR source: '${{ github.head_ref }}'"
+            exit 0
+          else
+            echo "❌ PRs to 'main' must come from 'staging' or 'hotfix/*'."
+            exit 1
+          fi

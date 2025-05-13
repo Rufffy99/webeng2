@@ -1,0 +1,18 @@
+{
+  "cwd": "/Users/maxdomitrovic/Studium/6. Semester/webeng/",
+  "type": [
+    "pwa"
+  ],
+  "name": "WebEng2",
+  "framework": "react",
+  "template": "single-view",
+  "bundler": "vite",
+  "cssPreProcessor": false,
+  "theming": {
+    "customColor": false,
+    "color": "#007aff",
+    "darkMode": true,
+    "iconFonts": true
+  },
+  "customBuild": false
+}

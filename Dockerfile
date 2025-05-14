@@ -1,21 +1,20 @@
-# Dockerfile for Framework7 React PWA
+# syntax=docker/dockerfile:1.4
 FROM --platform=linux/amd64 node:slim
 
-# Set the working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json
+# Copy package files first to leverage Docker layer caching
 COPY package.json package-lock.json ./
 
-# Install dependencies (double run to fix rollup issue)
-RUN npm install || true
-RUN rm -rf node_modules package-lock.json && npm cache clean --force && npm install
+# Clean install with workaround for Rollup optional dependency issue
+# First try install; if it fails due to rollup, try again cleanly
+RUN npm install || (rm -rf node_modules && npm cache clean --force && npm install)
 
-# Copy the rest of the application code
+# Copy the full project (after installing deps to benefit from layer caching)
 COPY . .
 
-# Build the application
+# Build the project
 RUN npm run build
 
-# Expose the port the app runs on
+# Expose app port
 EXPOSE 5173

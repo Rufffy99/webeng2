@@ -2,6 +2,7 @@ name: Validate Branch Name
 
 on:
   create:
+  pull_request:
     branches:
       - '*'
 
@@ -9,10 +10,18 @@ jobs:
   validate-branch-name:
     runs-on: ubuntu-latest
     steps:
-      - name: Check if branch name matches allowed patterns
+      - name: Determine branch name
         run: |
-          echo "Branch ref: $GITHUB_REF"
+          echo "GITHUB_REF: $GITHUB_REF"
+          echo "GITHUB_HEAD_REF: $GITHUB_HEAD_REF"
+
+          # Support both 'create' and 'pull_request' events
           BRANCH_NAME="${GITHUB_REF#refs/heads/}"
+          if [ -n "$GITHUB_HEAD_REF" ]; then
+            BRANCH_NAME="$GITHUB_HEAD_REF"
+          fi
+
+          echo "Checking branch: $BRANCH_NAME"
 
           if [[ "$BRANCH_NAME" =~ ^(feature|bugfix|fix|hotfix|chore|test)/.+$ ]]; then
             echo "✅ Branch name '$BRANCH_NAME' is valid."

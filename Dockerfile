@@ -1,21 +1,17 @@
-# syntax=docker/dockerfile:1.4
-FROM --platform=linux/amd64 node:slim
-
+FROM node:slim
+# Arbeitsverzeichnis der PWA im Container festlegen
 WORKDIR /app
-
-# Copy package files first to leverage Docker layer caching
-COPY package.json package-lock.json ./
-
-# Clean install with workaround for Rollup optional dependency issue
-# First try install; if it fails due to rollup, try again cleanly
-RUN npm install || echo "Initial npm install failed. Proceeding with fallback..."
-RUN if [ ! -d "node_modules" ]; then rm -rf node_modules && npm cache clean --force && npm install; fi
-
-# Copy the full project (after installing deps to benefit from layer caching)
+# Abhängigkeiten installieren "ci gleichbedeutend install", dabei gilt zu beachten, dass package.json und 
+# package-lock.json kopiert werden, um den Build-Cache besser zu nutzen.
+COPY package*.json ./
+RUN npm ci
+# Quellcode kopieren
 COPY . .
-
-# Build the project
+# Anwendung in als Production bauen - Ergebnis wird in /app/www erstellt
 RUN npm run build
 
 # Expose app port
 EXPOSE 5173
+
+# Start the application
+CMD ["npx", "vite", "preview"]

@@ -1,17 +1,15 @@
 FROM node:slim
-# Arbeitsverzeichnis der PWA im Container festlegen
+# Set the working directory of the PWA in the container
 WORKDIR /app
-# Abhängigkeiten installieren "ci gleichbedeutend install", dabei gilt zu beachten, dass package.json und 
-# package-lock.json kopiert werden, um den Build-Cache besser zu nutzen.
+# Install dependencies “ci equals install”, note that package.json and
+# package-lock.json are copied to make better use of the build cache.
 COPY package*.json ./
 RUN npm ci
-# Quellcode kopieren
+# Copy source code
 COPY . .
-# Anwendung in als Production bauen - Ergebnis wird in /app/www erstellt
+# Build application in as production - result is created in /app/www
 RUN npm run build
-
 # Expose app port
 EXPOSE 5173
-
 # Start the application
 CMD ["npx", "vite", "preview"]

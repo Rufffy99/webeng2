@@ -1,13 +1,7 @@
 .leaflet-routing-container {
   display: block;
-  position: fixed; 
-  top: 10px; 
-  right: 10px; 
-  width: 25%; 
-  height: 25%; 
-  overflow: auto; 
-  z-index: 100;
-  color:black;
   background-color: white;
-  opacity: 70; 
+  color: black;
+  font-size: 14px;
 }
+

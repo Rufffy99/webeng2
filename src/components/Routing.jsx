@@ -1,61 +1,56 @@
-import "leaflet-routing-machine";
-import L from "leaflet";
-import { useMap } from "react-leaflet";
-import { useEffect } from "react";
-import "../css/Style.css";
+import React, { useEffect } from 'react';
+import L from 'leaflet';
+import { useMap } from 'react-leaflet';
+import 'leaflet-routing-machine';
 
 
-function Routing() {
+const Routing = ({ setOpen, setRouteInfo }) => {
   const map = useMap();
-  const targetIcon = L.icon({
-    iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-    iconSize: [25, 41],  
-    iconAnchor: [12, 41],    
-  });
 
-  let targetMarker = null;
   useEffect(() => {
     const current = new L.LatLng(52.520007, 13.404954); // Berlin
-    L.circleMarker(current, { radius: 8, color: "blue" }).addTo(map); 
-    let target = null;
+    L.circleMarker(current, { radius: 8, color: 'blue' }).addTo(map);
 
     const routeControl = L.Routing.control({
-      show: false,
+      show: true,
       fitSelectedRoutes: false,
       plan: false,
       routeWhileDragging: true,
+      showAlternatives: true,
+      altLineOptions: {
+        styles: [{ color: 'blue', opacity: 0.8, weight: 5 }],
+      },
       lineOptions: {
-        styles: [
-          {
-            color: "blue",
-            opacity: 0.5,
-            weight: 5,
-          },
-        ],
+        styles: [{ color: 'blue', opacity: 0.5, weight: 5 }],
       },
     }).addTo(map);
 
-    map.on("click", function (e) {
-      target = e.latlng;
-      if (targetMarker) {
-        map.removeLayer(targetMarker);
-      }
-      targetMarker = L.marker(target, { icon: targetIcon }).addTo(map);
-     
-      routeControl.setWaypoints([current, target]);
-
+    map.on('click', (e) => {
+      const destination = e.latlng;
+      routeControl.setWaypoints([current, destination]);
+      setOpen(true);
     });
 
-    routeControl.on("routesfound", function (e) {
-      const summary = e.routes[0].summary;
+    routeControl.on('routesfound', ({ routes, waypoints }) => {
+      const summary = routes[0];
       const distance = summary.totalDistance / 1000;
-      const minutes = Math.round((summary.totalTime % 3600) / 60);
-      console.log(`Total distance: ${distance} km and total time ca: ${minutes} minutes`);
-    
+      const duration = Math.round(summary.totalTime / 60);
+      const destination = waypoints?.[1]?.latLng;
+
+      setRouteInfo({
+        distance: distance.toFixed(2),
+        duration,
+        destination: `${destination.lat.toFixed(5)}, ${destination.lng.toFixed(5)}`
+      });
     });
 
-  }, [map]);
+    return () => {
+      map.off('click');
+      map.removeControl(routeControl);
+    };
+  }, [map, setOpen, setRouteInfo]);
+
   return null;
-}
+};
 
 export default Routing;

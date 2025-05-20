@@ -1,12 +1,17 @@
 import { MapContainer, TileLayer } from 'react-leaflet'
-import LocationMarker from './Marker'
 import 'leaflet/dist/leaflet.css'
-import Routing from './Routing'
-import RouteInformation from './RouteInformation';
+import Routing from './Routing';
+import DragSheet from './DragSheet';
+import {useState} from "react";
 
-function MapComponent() {
+const MapComponent = () => {
+  const [isOpen, setOpen] = useState(false);
+  const [routeInfo, setRouteInfo] = useState(null);
   const position = [52.520007, 13.404954]
+ 
   return (
+    <>
+   <DragSheet isOpen={isOpen} setOpen={setOpen} routeInfo={routeInfo}/>
     <MapContainer
       center={position}
       zoom={10}
@@ -15,15 +20,12 @@ function MapComponent() {
     >
       <TileLayer
         attribution='&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
-    
-    <Routing /> 
-    <RouteInformation />
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+      <Routing setOpen={setOpen} setRouteInfo={setRouteInfo}/>
     </MapContainer>
   
+    </>
 
   )
 }
-
 export default MapComponent

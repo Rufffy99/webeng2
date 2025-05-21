@@ -12,4 +12,4 @@ RUN npm run build
 # Expose app port
 EXPOSE 4173
 # Start the application
-CMD ["npx", "vite", "preview",  "--host", "0.0.0.0", "--port", "4173"]
+CMD ["npx", "vite", "preview", "--host", "0.0.0.0", "--port", "4173", "--outDir", "www"]

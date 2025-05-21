@@ -33,10 +33,10 @@ docker build -t webeng2 .
 ### 🚀 Run the Container
 
 ```bash
-docker run -p 5173:5173 webeng2
+docker run -p 4173:4173 webeng2
 ```
 
-This serves the app in production mode on `http://localhost:5173`.
+This serves the app in production mode on `http://localhost:4173`.
 
 ---
 
@@ -45,7 +45,7 @@ This serves the app in production mode on `http://localhost:5173`.
 To enable live development, including Git support and local file syncing, run the container with volume mounts:
 
 ```bash
-docker run -it --rm -p 5173:5173 -v $(pwd):/app -w /app node:slim bash
+docker run -it --rm -p 4173:4173 -v $(pwd):/app -w /app node:slim bash
 ```
 
 Then inside the container:

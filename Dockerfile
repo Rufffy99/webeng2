@@ -10,6 +10,6 @@ COPY . .
 # Build application in as production - result is created in /app/www
 RUN npm run build
 # Expose app port
-EXPOSE 5173
+EXPOSE 4173
 # Start the application
-CMD ["npx", "vite", "preview"]
+CMD ["npx", "vite", "preview",  "--host", "0.0.0.0", "--port", "4173"]

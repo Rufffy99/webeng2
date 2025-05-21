@@ -42,8 +42,6 @@ const Routing = ({ setOpen, setRouteInfo }) => {
         duration,
         destination: `${destination.lat.toFixed(5)}, ${destination.lng.toFixed(5)}`
       });
-  
-      // Verschiebe das Routing-Panel in den Sheet
       setTimeout(() => {
         const container = document.querySelector('.leaflet-routing-container');
         const target = document.getElementById('leaflet-routing-wrapper');

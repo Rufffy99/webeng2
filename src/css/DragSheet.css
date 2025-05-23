@@ -1,0 +1,26 @@
+.InfoButton{
+    background-color: black;
+    border: none;
+    border-radius: 1000px;
+    width: 45vw;
+    height: 5vh;
+    display:block;
+    color: white;
+    align-content: center;
+}
+.RouteButton{
+    background-color: black;
+    border: none;
+    border-radius: 1000px;
+    width: 45vw;
+    height: 5vh;
+    display:block;
+    color: white;
+    align-content: center;
+}
+.ButtonWrapper {
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px; 
+    padding: 16px;
+  }

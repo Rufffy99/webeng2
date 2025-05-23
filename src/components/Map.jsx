@@ -1,9 +1,9 @@
 import { MapContainer, TileLayer } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
 import Routing from './Routing';
-import DragSheet from './DragSheet';
+//import DragSheet from './DragSheet';
 import React, {useState} from "react";
-
+import DragSheetMobile from './DragSheetMobile';
 
 const MapComponent = () => {
   const [isOpen, setOpen] = useState(false);
@@ -11,7 +11,7 @@ const MapComponent = () => {
   const position = [52.520007, 13.404954]
   return (
     <>
-   <DragSheet isOpen={isOpen} setOpen={setOpen} routeInfo={routeInfo}/>
+   <DragSheetMobile isOpen={isOpen} setOpen={setOpen} routeInfo={routeInfo}/>
     <MapContainer
       center={position}
       zoom={10}

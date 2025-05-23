@@ -31,7 +31,7 @@ const Routing = ({ setOpen, setRouteInfo }) => {
       setOpen(true);
     });
   
-    routeControl.on('routesfound', ({ routes, waypoints }) => {
+    routeControl.on('routesfound', async ({ routes, waypoints }) => {
       const summary = routes[0];
       const distance = summary.totalDistance / 1000;
       const duration = Math.round(summary.totalTime / 60);
@@ -42,6 +42,7 @@ const Routing = ({ setOpen, setRouteInfo }) => {
         duration,
         destination: `${destination.lat.toFixed(5)}, ${destination.lng.toFixed(5)}`
       });
+      await 3;
       setTimeout(() => {
         const container = document.querySelector('.leaflet-routing-container');
         const target = document.getElementById('leaflet-routing-wrapper');

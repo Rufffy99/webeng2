@@ -13,8 +13,6 @@ const DragSheetMobile = ({ isOpen, setOpen, routeInfo }) => {
         <Sheet.Content>
           <Sheet.Scroller>
             <div style={{ padding: '10px' }}>
-              
-              {/* Buttons nebeneinander */}
               <div className='ButtonWrapper'>
                 <Button onClick={() => setActiveTab('route')} className='RouteButton'>
                   Routeinfo anzeigen
@@ -23,8 +21,6 @@ const DragSheetMobile = ({ isOpen, setOpen, routeInfo }) => {
                   Info anzeigen
                 </Button>
               </div>
-
-              {/* Inhalt unter den Buttons */}
               <div className="TextContent">
                 {activeTab === 'route' ? (
                   routeInfo ? (
